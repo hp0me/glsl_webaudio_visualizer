@@ -3,6 +3,7 @@ glsl(webgl) and webaudio visualizer using Youtube video
 
 demo:http://hp0me.github.io/glsl_webaudio_visualizer/
 
+![anim2](http://hp0me.github.io/glsl_webaudio_visualizer/sc1.gif)
 ![anim1](http://hp0me.github.io/glsl_webaudio_visualizer/sc3.gif)
 
 # License
