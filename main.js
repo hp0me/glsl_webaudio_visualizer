@@ -6,7 +6,7 @@ window.onload = function(){
 	var analyser = audioCtx.createAnalyser();
 	analyser.minDecibels = -90; //最小値
 	analyser.maxDecibels = 0; //最大値
-	analyser.smoothingTimeConstant = 0.65; //落ち着くまでの時間
+	analyser.smoothingTimeConstant = 0.75; //落ち着くまでの時間
 
 	analyser.fftSize = 32; //音域の数
 	var bufferLength = analyser.frequencyBinCount;
@@ -21,7 +21,11 @@ window.onload = function(){
 	var source;
 
 	//Youtubeの音を拾う
-	navigator.webkitGetUserMedia (
+  navigator.getUserMedia = ( navigator.getUserMedia ||
+                       navigator.webkitGetUserMedia ||
+                       navigator.mozGetUserMedia ||
+                       navigator.msGetUserMedia);
+	navigator.getUserMedia (
 	  {
 	     audio: true
 	  },
@@ -76,6 +80,7 @@ window.onload = function(){
   u.resolution = gl.getUniformLocation(programs, 'resolution');
 
   var rad = 0;
+  var blueCount = 0;
 
   var render = function(){
 
@@ -87,21 +92,36 @@ window.onload = function(){
     //音域の総和を得る
     var dNum = 0;
     for(var i = 0; i < dataArray.length;i++){
+      dataArray[i] *= 1.5;
     	dNum += dataArray[i];
     }
 
     //青は、総和をビジュアライズする
     var blue = dNum * 0.00023;
+    //var blue = dNum * 0.0001 + 0.4;
+
 
     //赤は特定の音域のみ拾う
-    var red = dataArray[5] * 0.003;
-
-    //◯の大きさは青に比例する
-    var circleSize = blue * 0.08;
+    var red = dataArray[6] * 0.002;
+    //var red = 0;
 
     //◯の軌道。低い時は戻るようにする
     var vr = dataArray[6] * 0.0003;
-    if(vr <= 0)vr -= 0.01;
+
+    if(vr <= 0.04){
+      vr -= 0.02;
+    }else{
+      vr += 0.04;
+    }
+
+    //vr > 0.08 ? blueCount++:blueCount=0;
+    //if(blueCount > 3)red  = dataArray[5] * 0.003;
+
+    //◯の大きさは青に比例する
+    var circleSize = red * 0.01 +  blue * 0.04;
+
+
+    console.log(vr);
     rad += vr;
 
     gl.clear(gl.COLOR_BUFFER_BIT);

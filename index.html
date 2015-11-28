@@ -25,7 +25,7 @@
       height: 100%;
       position: relative;
       z-index: 10;
-      opacity :0.93;
+      opacity :0.95;
     }
   </style>
 
@@ -46,9 +46,14 @@
 
       //回る◯
       for(float i = 0.0; i < 6.0; i++){
-          vec2 q = p + vec2(cos(rad + i), sin(rad + i + 2.0)) * 0.5;
-          color.g += circleSize / length(q);
-          color.b += circleSize / length(q) * 0.6;
+          vec2 q = p + vec2(cos(rad + i) + circleSize * 30.0, sin(rad + i + 2.0) + circleSize * 30.0 - 0.3) * 0.5;
+          color.g += circleSize / length(q * 1.5);
+          color.b += circleSize / length(q * 1.5) * 0.6;
+      }
+      for(float i = 0.0; i < 6.0; i++){
+          vec2 q = p + vec2(cos(rad - i), sin(rad + i + 2.0) + circleSize * 30.0 - 0.3) * 0.5;
+          color.g += circleSize / length(q * 1.5) * 0.6;
+          color.b += circleSize / length(q * 1.5) * 0.6;
       }
 
       //青、赤の強さを決定
@@ -76,7 +81,9 @@
   <script src="main.js"></script>
 </head>
 <body>
-  <div class="youtube" data-id="-Js_-DtskxM" data-width="1920" data-height="1080"></div>
+  <!--<div class="youtube" data-id="-Js_-DtskxM 3GgpZ4BeT38 X-nnHdj8fRg BLpAiUiR2fk" data-width="1920" data-height="1080"></div>-->
+  <div class="youtube" data-id="Onr12llWDGo" data-width="1920" data-height="1080"></div>
+
   <canvas id="myCanvas" class="canvas" width="640" height="100"></canvas>
 </body>
 </html>
