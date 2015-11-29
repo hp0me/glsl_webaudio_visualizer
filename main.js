@@ -92,7 +92,7 @@ window.onload = function(){
     //音域の総和を得る
     var dNum = 0;
     for(var i = 0; i < dataArray.length;i++){
-      dataArray[i] *= 1.5;
+      dataArray[i] *= 2.5;
     	dNum += dataArray[i];
     }
 
