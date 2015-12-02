@@ -1,6 +1,6 @@
 window.onload = function(){
 
-	$('.youtube').bcYoutube().bcBackground();
+	//$('.youtube').bcYoutube().bcBackground();
 
 	var audioCtx = new AudioContext();
 	var analyser = audioCtx.createAnalyser();
@@ -28,10 +28,12 @@ window.onload = function(){
 	navigator.getUserMedia (
 	  {
 	     audio: true,
+       video: true
 	  },
 	  function(stream) {
 	    source = audioCtx.createMediaStreamSource(stream);
 	    source.connect(analyser);
+      $("#myCamera").prop('src', window.URL.createObjectURL(stream));
 			getAudio();
 	  },
 	  function(err) {

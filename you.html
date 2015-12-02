@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    .youtube {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+    }
+
+    .canvas {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      z-index: 10;
+      opacity :0.70;
+    }
+  </style>
+
+  <script id="fs" type="xs/fs">
+    precision mediump float;
+    uniform float rad; // 回転のステップ
+    uniform float circleSize; // ◯の大きさ
+    uniform float blueIntensity; // 青の強さ
+    uniform float redIntensity; // 赤の強さ
+    uniform vec2  resolution;
+
+    void main(void)
+    {
+
+      vec2 p = (gl_FragCoord.xy * 2.0 - resolution) / max(resolution.x, resolution.y);
+
+      vec3 color = vec3(0.0);
+
+      //回る◯
+      for(float i = 0.0; i < 6.0; i++){
+          vec2 q = p + vec2(cos(rad + i) + circleSize * 30.0, sin(rad + i + 2.0) + circleSize * 30.0 - 0.3) * 0.5;
+          color.g += circleSize / length(q * 1.5);
+          color.b += circleSize / length(q * 1.5) * 0.6;
+      }
+      for(float i = 0.0; i < 6.0; i++){
+          vec2 q = p + vec2(cos(rad - i), sin(rad + i + 2.0) + circleSize * 30.0 - 0.3) * 0.5;
+          color.g += circleSize / length(q * 1.5) * 0.6;
+          color.b += circleSize / length(q * 1.5) * 0.6;
+      }
+
+      //青、赤の強さを決定
+      color.b += blueIntensity;
+      color.r += redIntensity;
+
+      //色を決定
+      gl_FragColor = vec4(color, 1.0);
+
+    }
+
+  </script>
+
+  <script id="vs" type="xs/vs">
+    attribute vec3 position;
+    void main(void)
+    {
+      //test
+      gl_Position = vec4(position, 1.0);
+    }
+  </script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="baser.min.js"></script>
+  <script src="you.js"></script>
+</head>
+<body>
+  <!--<div class="youtube" data-id="-Js_-DtskxM 3GgpZ4BeT38 X-nnHdj8fRg BLpAiUiR2fk" data-width="1920" data-height="1080"></div>-->
+  <!--<div class="youtube" data-id="Onr12llWDGo" data-width="1920" data-height="1080"></div>-->
+  <video id="myCamera" class="youtube" autoplay></video>
+
+  <canvas id="myCanvas" class="canvas" width="640" height="100"></canvas>
+</body>
+</html>
